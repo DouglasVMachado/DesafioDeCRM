@@ -1,0 +1,5 @@
+CREATE TABLE contacts(
+    id BIGSERIAL PRIMARY KEY,
+    type VARCHAR(200) NOT NULL,
+    amount VARCHAR(255) NOT NULL
+);

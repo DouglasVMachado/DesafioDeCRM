@@ -8,10 +8,7 @@ import com.desafio.crm.DesafioDeCRM.model.Client;
 import com.desafio.crm.DesafioDeCRM.service.ClientService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,12 +22,14 @@ public class ClientController {
         this.clientService = clientService;
     }
 
+    @PostMapping
     public ResponseEntity<ClientResponse> create(@RequestBody ClientRequest clientRequest){
         Client newClient = ClientMapper.toClient(clientRequest);
         Client savedClient = clientService.create(newClient);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    @GetMapping
     public ResponseEntity<List<ClientResponse>> findAll(){
         List<ClientResponse> clientResponses = clientService.findAll()
                 .stream()
@@ -39,6 +38,7 @@ public class ClientController {
         return ResponseEntity.ok().body(clientResponses);
     }
 
+    @GetMapping("/{id}")
     public ResponseEntity<ClientResponse> findById(@PathVariable Long id){
         return clientService.findById(id)
                 .map(client -> ResponseEntity.ok(ClientMapper.toClientResponse(client)))
